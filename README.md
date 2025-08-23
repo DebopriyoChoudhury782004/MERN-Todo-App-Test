@@ -106,6 +106,7 @@ mern-todo-app/
 │   │   └── TodoApp.js              # Main Todo app wrapper
 │   ├── package.json                # Frontend dependencies and scripts
 │   ├── package-lock.json
+|   ├── .env
 │   └── README.md                   # Frontend documentation
 
 ├── README.md                       # Project overview and setup instructions
