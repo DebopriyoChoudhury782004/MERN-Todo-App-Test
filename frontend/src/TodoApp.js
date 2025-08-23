@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import API from './components/api';
+import API from './api';
 import Todo from './Todo';
 import './Todo.css';
 import { jwtDecode } from 'jwt-decode';
@@ -15,17 +15,16 @@ const TodoApp = () => {
   const [userInfo, setUserInfo] = useState(null);
 
   const decodeToken = () => {
-  const token = localStorage.getItem("token");
-  if (token) {
-    try {
-      const decoded = jwtDecode(token); // ✅ use jwtDecode, not jwt_decode
-      setUserInfo(decoded);
-    } catch (err) {
-      console.error("Invalid token", err);
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded = jwtDecode(token);
+        setUserInfo(decoded);
+      } catch (err) {
+        console.error("Invalid token", err);
+      }
     }
-  }
-};
-
+  };
 
   useEffect(() => {
     fetchTodos();
@@ -36,21 +35,12 @@ const TodoApp = () => {
     document.body.className = darkMode ? 'dark' : '';
   }, [darkMode]);
 
-  const getAuthHeader = () => {
-    const token = localStorage.getItem('token');
-    return {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-  };
-
   const fetchTodos = async () => {
     try {
       const token = localStorage.getItem("token");
       console.log("🪪 Token sent:", token);
 
-      const res = await API.get('/todos', getAuthHeader());
+      const res = await API.get('/todos');
       console.log("📥 Todos from backend:", res.data);
 
       setTodos(res.data);
@@ -78,7 +68,7 @@ const TodoApp = () => {
 
   const toggleComplete = async (id, completed) => {
     try {
-      await API.put(`/todos/${id}`, { completed: !completed }, getAuthHeader());
+      await API.put(`/todos/${id}`, { completed: !completed });
       fetchTodos();
     } catch (err) {
       setAuthError('⚠️ Action failed. Please login.');
@@ -87,7 +77,7 @@ const TodoApp = () => {
 
   const deleteTodo = async (id) => {
     try {
-      await API.delete(`/todos/${id}`, getAuthHeader());
+      await API.delete(`/todos/${id}`);
       fetchTodos();
     } catch (err) {
       setAuthError('⚠️ Delete failed. Please login.');
@@ -97,7 +87,7 @@ const TodoApp = () => {
   const editTodo = async (id, updatedFields) => {
     if (updatedFields.text && !updatedFields.text.trim()) return;
     try {
-      await API.put(`/todos/${id}`, updatedFields, getAuthHeader());
+      await API.put(`/todos/${id}`, updatedFields);
       fetchTodos();
     } catch (err) {
       setAuthError('⚠️ Edit failed. Please login.');
