@@ -1,0 +1,112 @@
+
+
+/* App.css */
+
+body {
+  background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-container {
+  background: #ffffffcc;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  width: 400px;
+  max-width: 90vw;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 25px;
+  letter-spacing: 2px;
+}
+
+input[type="text"] {
+  width: 75%;
+  padding: 12px 15px;
+  border: 2px solid #74ebd5;
+  border-radius: 25px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+  border-color: #ACB6E5;
+}
+
+button {
+  width: 20%;
+  margin-left: 10px;
+  padding: 12px 0;
+  background: #74ebd5;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background: #ACB6E5;
+}
+
+
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  background: #e3f2fd;
+  padding: 12px 18px;
+  border-radius: 12px;
+  margin: 12px 0;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  animation: fadeIn 0.4s ease forwards;
+}
+
+.todo-item:hover {
+  background: #bbdefb;
+}
+
+.todo-item p {
+  margin: 0;
+  flex: 1;
+  user-select: none;
+}
+
+.todo-item p.completed {
+  text-decoration: line-through;
+  color: #757575;
+  font-style: italic;
+}
+
+.todo-item button {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  color: #e57373;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.todo-item button:hover {
+  color: #f44336;
+}
