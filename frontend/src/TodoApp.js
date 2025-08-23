@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import API from './api';
+import API from './components/api';
 import Todo from './Todo';
 import './Todo.css';
 import { jwtDecode } from 'jwt-decode';
