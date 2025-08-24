@@ -12,7 +12,7 @@ const app = express();
 app.use(cors({
   origin: [
     "http://localhost:3000",                     // Local React dev server
-    "https://melodic-kataifi-eaf080.netlify.app" // Your Netlify domain
+    "merntodo-frontend.netlify.app" // Your Netlify domain
   ],
   methods: ["GET", "POST", "PUT", "DELETE"],
   allowedHeaders: ["Content-Type", "Authorization"], // Allow JWT token in header
