@@ -1,8 +1,6 @@
-// backend/routes/auth.js
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const bcrypt = require('bcryptjs');
 const router = express.Router();
 
 // ✅ Register new user
@@ -13,11 +11,8 @@ router.post('/signup', async (req, res) => {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ message: 'User already exists' });
 
-    // hash password before saving
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
-    user = new User({ email, password: hashedPassword });
+    // let pre-save hook in User.js handle hashing
+    user = new User({ email, password });
     await user.save();
 
     res.status(201).json({ message: 'User registered successfully!' });
