@@ -1,30 +1,23 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import API from './api'; // ✅ adjust path if needed
 import './Login.css';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // 👈 Toggle state
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
-      const res = await fetch('https://mern-todo-app-test-1.onrender.com/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.message || 'Login failed');
-
+      const { data } = await API.post('/auth/login', { email, password }); // ✅ axios
       localStorage.setItem('token', data.token);
       navigate('/todos', { replace: true });
     } catch (err) {
       console.error(err);
-      toast.error(err.message || 'Login failed');
+      toast.error(err.response?.data?.message || 'Login failed');
     }
   };
 

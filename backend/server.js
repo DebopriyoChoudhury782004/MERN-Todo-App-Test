@@ -7,16 +7,24 @@ const cors = require('cors');
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
+// ✅ Proper CORS setup for local frontend
+app.use(cors({
+  origin: "http://localhost:3000",  // your React dev server
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"], // must allow Authorization header
+}));
+
 app.use(express.json());
 
 // ✅ Routes
 const authRoutes = require('./routes/auth');
+const todoRoutes = require('./routes/todos');
 app.use('/api/auth', authRoutes);
+app.use('/api/todos', todoRoutes);
 
 // ✅ MongoDB connection
-mongoose
-  .connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB Connected'))
   .catch((err) => console.error('MongoDB connection error:', err));
 

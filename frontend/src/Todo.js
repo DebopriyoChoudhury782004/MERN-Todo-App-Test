@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const Todo = ({ todo, toggleComplete, deleteTodo, editTodo }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [newText, setNewText] = useState(todo.text);
-  const [newPriority, setNewPriority] = useState(todo.priority);
+  const [newPriority, setNewPriority] = useState(todo.priority || "Low");
   const [newDueDate, setNewDueDate] = useState(
     todo.dueDate ? todo.dueDate.split('T')[0] : ''
   );
@@ -12,14 +12,16 @@ const Todo = ({ todo, toggleComplete, deleteTodo, editTodo }) => {
     if (!newText.trim()) return;
 
     const updatedTodo = {
-      text: newText,
+      text: newText.trim(),
       priority: newPriority,
-      dueDate: newDueDate,
+      dueDate: newDueDate || null,
     };
 
-    console.log("Sending update:", updatedTodo);
+    console.log("✏️ Updating todo:", todo._id, updatedTodo);
 
+    // Call parent edit function
     editTodo(todo._id, updatedTodo);
+
     setIsEditing(false);
   };
 
