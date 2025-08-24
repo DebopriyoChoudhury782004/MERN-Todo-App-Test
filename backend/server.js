@@ -10,9 +10,13 @@ const app = express();
 
 // ✅ Proper CORS setup for local frontend
 app.use(cors({
-  origin: "http://localhost:3000",  // your React dev server
+  origin: [
+    "http://localhost:3000",                     // Local React dev server
+    "https://melodic-kataifi-eaf080.netlify.app" // Your Netlify domain
+  ],
   methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: ["Content-Type", "Authorization"], // must allow Authorization header
+  allowedHeaders: ["Content-Type", "Authorization"], // Allow JWT token in header
+  credentials: true
 }));
 
 app.use(express.json());
