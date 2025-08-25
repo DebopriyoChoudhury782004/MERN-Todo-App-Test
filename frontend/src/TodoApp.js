@@ -13,6 +13,8 @@ const TodoApp = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [authError, setAuthError] = useState('');
   const [userInfo, setUserInfo] = useState(null);
+  const [userHasChanged, setUserHasChanged] = useState(false);
+
 
   const decodeToken = () => {
     const token = localStorage.getItem("token");
@@ -52,19 +54,22 @@ const TodoApp = () => {
   };
 
   const addTodo = async () => {
-    if (!text.trim()) return;
-    try {
-      const response = await API.post('/todos', { text, priority, dueDate });
-      console.log('Added Todo:', response.data);
-      setText('');
-      setPriority('Medium');
-      setDueDate('');
-      fetchTodos();
-    } catch (err) {
-      console.error('Add Todo Error:', err.response?.data || err.message || err);
-      setAuthError('⚠️ Failed to add todo. Please login.');
-    }
-  };
+  if (!text.trim()) return;
+  try {
+    const response = await API.post('/todos', { text, priority, dueDate });
+    console.log('Added Todo:', response.data);
+
+    setText('');
+    setPriority('Medium');     
+    setDueDate('');
+    setUserHasChanged(false);  
+
+    fetchTodos();
+  } catch (err) {
+    console.error('Add Todo Error:', err.response?.data || err.message || err);
+    setAuthError('⚠️ Failed to add todo. Please login.');
+  }
+};
 
   const toggleComplete = async (id, completed) => {
     try {
@@ -118,7 +123,7 @@ const TodoApp = () => {
         </button>
       </div>
 
-      <h1>📝 ActionPlanner</h1>
+      <h1>📝 Todo App</h1>
 
       <button className="btn btn-green" onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
@@ -134,17 +139,23 @@ const TodoApp = () => {
           placeholder="Enter new todo"
         />
 
-        <select value={priority} onChange={(e) => setPriority(e.target.value)}>
-          <option value="Low">Low 🔵</option>
-          <option value="Medium">Medium 🟡</option>
-          <option value="High">High 🔴</option>
-        </select>
+        <select 
+  value={priority === "Medium" && !userHasChanged ? "" : priority}
+  onChange={(e) => {
+    setPriority(e.target.value);
+    setUserHasChanged(true);
+  }}
+>
+  <option value="" disabled hidden>Set Priority</option>  {/* Placeholder */}
+  <option value="Low">Low 🔵</option>
+  <option value="Medium">Medium 🟡</option>
+  <option value="High">High 🔴</option>
+</select>
 
         <input
           type="date"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
-          placeholder={window.innerWidth <= 768 ? "Pick a date" : ""}
         />
 
         <button className="btn btn-green" onClick={addTodo}>Add</button>
