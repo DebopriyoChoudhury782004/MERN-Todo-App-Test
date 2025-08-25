@@ -73,44 +73,53 @@ mern-todo-app/
 │   ├── routes/
 │   │   ├── auth.js                  # Auth routes (login/signup)
 │   │   └── todos.js                 # Todo CRUD routes
-│   ├── node_modules/               # Backend dependencies
-│   ├── .env                        # Environment variables for backend
-│   ├── package.json                # Backend dependencies and scripts
+│   ├── node_modules/                # Backend dependencies
+│   ├── .env                         # Environment variables for backend
+│   ├── package.json                 # Backend dependencies and scripts
 │   ├── package-lock.json
-│   └── server.js                   # Express server entry point
-
+│   └── server.js                    # Express server entry point
+│
 ├── frontend/
-│   ├── node_modules/               # Frontend dependencies
+│   ├── build/                       # Production build files
+│   │   └── robots.txt
+│   ├── node_modules/                # Frontend dependencies
 │   ├── public/
-│   │   └── index.html              # Main HTML template
+│   │   ├── _redirects
+│   │   ├── favicon.ico
+│   │   ├── index.html               # Main HTML template
+│   │   ├── logo192.png
+│   │   ├── logo512.png
+│   │   ├── manifest.json
+│   │   └── robots.txt
 │   ├── src/
 │   │   ├── components/
-|   |   |   ├── Footer.js           # Footer file
-|   |   |   ├── Footer.css           # Footer styling
-│   │   |	  ├── api.js              # Axios/API utility
-│   │   │   ├── Login.js            # Login form component
-│   │   │   ├── Login.css           # Login Styling
-│   │   │   ├── PrivateRoute.js     # Protected route HOC
-│   │   │   ├── Signup.css          # Signup Styling
-│   │   │   └── Signup.js           # Signup form component 
-│   │   ├── App.css                 # Main app styling
-│   │   ├── App.js                  # Root component with routing
-│   │   ├── App.test.js             # Unit test for App
-│   │   ├── index.css               # Global styles
-│   │   ├── index.js                # Entry point for React app
-│   │   ├── logo.svg                # React logo asset
-│   │   ├── reportWebVitals.js      # Performance metrics (optional)
-│   │   ├── setupTests.js           # Test setup
-│   │   ├── Todo.css                # CSS for Todo component
-│   │   ├── Todo.js                 # Single Todo item component
-│   │   └── TodoApp.js              # Main Todo app wrapper
-│   ├── package.json                # Frontend dependencies and scripts
+│   │   │   ├── api.js               # Axios/API utility
+│   │   │   ├── Footer.js            # Footer component
+│   │   │   ├── Footer.css           # Footer styling
+│   │   │   ├── Login.js             # Login form component
+│   │   │   ├── Login.css            # Login styling
+│   │   │   ├── PrivateRoute.js      # Protected route HOC
+│   │   │   ├── Signup.js            # Signup form component
+│   │   │   ├── Signup.css           # Signup styling
+│   │   │   ├── Todo.js              # Single Todo item component
+│   │   │   └── Todo.css             # Todo component styling
+│   │   ├── App.css                  # Main app styling
+│   │   ├── App.js                   # Root component with routing
+│   │   ├── App.test.js              # Unit test for App
+│   │   ├── index.css                # Global styles
+│   │   ├── index.js                 # Entry point for React app
+│   │   ├── logo.svg                 # React logo asset
+│   │   ├── reportWebVitals.js       # Performance metrics
+│   │   ├── setupTests.js            # Test setup
+│   │   └── TodoApp.js               # Main Todo app wrapper
+│   ├── .env                         # Frontend environment variables
+│   ├── .gitignore                   # Git ignore rules
+│   ├── package.json                 # Frontend dependencies and scripts
 │   ├── package-lock.json
-|   ├── .env
-│   └── README.md                   # Frontend documentation
-
-├── README.md                       # Project overview and setup instructions
-
+│   └── README.md                    # Frontend documentation
+│
+├── .gitignore                       # Root git ignore
+└── README.md                        # Project overview and setup instructions
 ```
 
 ---
