@@ -410,3 +410,140 @@ body.dark .due-date {
   border-radius: 10px;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
+/* ✅ Mobile-first polish */
+@media (max-width: 600px) {
+  /* General app spacing */
+  .todo-app {
+    width: 100%;
+    margin: 0;
+    padding: 15px 12px;
+    box-sizing: border-box;
+  }
+
+  .todo-app h1 {
+    text-align: center;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+  }
+
+  /* Input form as a clean card */
+  .todo-input {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    margin-bottom: 1rem;
+  }
+
+  .todo-input input,
+  .todo-input select,
+  .todo-input button,
+  .todo-input input[type="date"] {
+    width: 100%;
+    font-size: 1rem;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+  }
+
+  .todo-input button {
+    background: linear-gradient(135deg, #28a745, #00c853);
+    color: #fff;
+    border: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .todo-input button:hover {
+    opacity: 0.9;
+  }
+
+  /* Filter buttons */
+  .todo-buttons {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+    gap: 10px;
+  }
+
+  .todo-buttons button {
+    flex: 1;
+    padding: 10px 0;
+    border-radius: 20px;
+    border: none;
+    font-size: 0.95rem;
+    background: #f1f1f1;
+    transition: 0.2s;
+  }
+
+  .todo-buttons button.active {
+    background: #4caf50;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  /* Todo cards */
+  .todo-card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .todo-priority {
+    font-size: 13px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+  }
+
+  .todo-actions {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+    gap: 10px;
+  }
+
+  .todo-actions button {
+    flex: 1;
+    padding: 10px;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .todo-actions .edit-btn {
+    background: #2196f3;
+    color: white;
+  }
+
+  .todo-actions .delete-btn {
+    background: #f44336;
+    color: white;
+  }
+
+  /* Empty state (when no todos) */
+  .empty-state {
+    text-align: center;
+    padding: 20px;
+    background: #fff;
+    border-radius: 12px;
+    font-size: 1rem;
+    color: #555;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+}
+
