@@ -118,7 +118,7 @@ const TodoApp = () => {
         </button>
       </div>
 
-      <h1>📝 Todo App</h1>
+      <h1>📝 ActionPlanner</h1>
 
       <button className="btn btn-green" onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
