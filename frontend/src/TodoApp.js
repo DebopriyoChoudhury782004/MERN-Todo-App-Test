@@ -144,6 +144,7 @@ const TodoApp = () => {
           type="date"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
+          placeholder={window.innerWidth <= 768 ? "Pick a date" : ""}
         />
 
         <button className="btn btn-green" onClick={addTodo}>Add</button>
