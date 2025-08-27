@@ -15,7 +15,6 @@ const TodoApp = () => {
   const [userInfo, setUserInfo] = useState(null);
   const [userHasChanged, setUserHasChanged] = useState(false);
 
-
   const decodeToken = () => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -54,22 +53,22 @@ const TodoApp = () => {
   };
 
   const addTodo = async () => {
-  if (!text.trim()) return;
-  try {
-    const response = await API.post('/todos', { text, priority, dueDate });
-    console.log('Added Todo:', response.data);
+    if (!text.trim()) return;
+    try {
+      const response = await API.post('/todos', { text, priority, dueDate });
+      console.log('Added Todo:', response.data);
 
-    setText('');
-    setPriority('Medium');     
-    setDueDate('');
-    setUserHasChanged(false);  
+      setText('');
+      setPriority('Medium');     
+      setDueDate('');
+      setUserHasChanged(false);  
 
-    fetchTodos();
-  } catch (err) {
-    console.error('Add Todo Error:', err.response?.data || err.message || err);
-    setAuthError('⚠️ Failed to add todo. Please login.');
-  }
-};
+      fetchTodos();
+    } catch (err) {
+      console.error('Add Todo Error:', err.response?.data || err.message || err);
+      setAuthError('⚠️ Failed to add todo. Please login.');
+    }
+  };
 
   const toggleComplete = async (id, completed) => {
     try {
@@ -110,6 +109,11 @@ const TodoApp = () => {
     window.location.href = '/login';
   };
 
+  // ✅ Progress tracker logic
+  const completed = todos.filter(t => t.completed).length;
+  const total = todos.length;
+  const progress = total ? Math.round((completed / total) * 100) : 0;
+
   return (
     <div className="todo-app">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -124,6 +128,12 @@ const TodoApp = () => {
       </div>
 
       <h1>📝 Todo App</h1>
+
+      {/* ✅ Progress Tracker UI */}
+      <div className="progress-container">
+        <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+      </div>
+      <p>{progress}% tasks completed</p>
 
       <button className="btn btn-green" onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
@@ -140,17 +150,17 @@ const TodoApp = () => {
         />
 
         <select 
-  value={priority === "Medium" && !userHasChanged ? "" : priority}
-  onChange={(e) => {
-    setPriority(e.target.value);
-    setUserHasChanged(true);
-  }}
->
-  <option value="" disabled hidden>Set Priority</option>  {/* Placeholder */}
-  <option value="Low">Low 🔵</option>
-  <option value="Medium">Medium 🟡</option>
-  <option value="High">High 🔴</option>
-</select>
+          value={priority === "Medium" && !userHasChanged ? "" : priority}
+          onChange={(e) => {
+            setPriority(e.target.value);
+            setUserHasChanged(true);
+          }}
+        >
+          <option value="" disabled hidden>Set Priority</option>
+          <option value="Low">Low 🔵</option>
+          <option value="Medium">Medium 🟡</option>
+          <option value="High">High 🔴</option>
+        </select>
 
         <input
           type="date"
