@@ -16,8 +16,13 @@ const UserSchema = new mongoose.Schema(
       required: [true, "Password is required"],
       minlength: [6, "Password must be at least 6 characters"], // basic security
     },
+    theme: {
+      type: String,
+      enum: ["light","dark"],
+      default: "light"
+    }
   },
-  { timestamps: true } // adds createdAt & updatedAt
+  { timestamps: true }, // adds createdAt & updatedAt
 );
 
 // 🔐 Pre-save hook to hash password

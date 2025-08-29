@@ -179,14 +179,7 @@ The backend will run at: http://localhost:5000
 
 ---
 
-## 🧱 Future Improvements
 
-- 🔐 Add user authentication (JWT)
-- 🌓 Dark mode toggle
-- 🧠 Task priorities and categories
-- 🔍 Real-time filtering/search
-- 🕒 Due dates and reminders
-- 🎨 Advanced UI with Framer Motion
 
 ---
 

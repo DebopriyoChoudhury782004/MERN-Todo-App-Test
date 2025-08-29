@@ -560,3 +560,202 @@ body.dark .due-date {
     content: "";
   }
 }
+body.dark {
+  background-color: #121212;
+  color: #ffffff;
+}
+
+body.dark input,
+body.dark select,
+body.dark button {
+  background: #333;
+  color: #fff;
+}
+
+/* Progress Bar Styles */
+.progress-container {
+  margin: 10px 0;
+  text-align: center;
+}
+
+.progress-label {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.progress-bar {
+  background: #e0e0e0;
+  border-radius: 20px;
+  height: 16px;
+  width: 80%;
+  margin: 0 auto;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.progress-fill {
+  background: linear-gradient(90deg, #6a11cb, #2575fc);
+  height: 100%;
+  border-radius: 20px;
+  transition: width 0.4s ease;
+}
+
+/* Priority Dropdown */
+.priority-select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  padding: 8px 35px 8px 12px;
+  border-radius: 8px;
+  border: 2px solid #ccc;
+  font-size: 14px;
+  font-weight: 500;
+  background: linear-gradient(to right, #f9f9f9, #f1f1f1);
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  outline: none;
+  position: relative;
+}
+
+/* Hover Effect */
+.priority-select:hover {
+  border-color: #6a11cb;
+  background: #fdfdfd;
+}
+
+/* Focus Effect */
+.priority-select:focus {
+  border-color: #2575fc;
+  box-shadow: 0 0 5px rgba(37, 117, 252, 0.6);
+}
+
+/* Add custom dropdown arrow */
+.priority-select {
+  background-image: url("data:image/svg+xml;charset=UTF-8,<svg fill='%236a11cb' height='20' viewBox='0 0 24 24' width='20' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+}
+
+.priority-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.priority-btn {
+  padding: 6px 14px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: var(--btn-bg);
+  color: var(--text-color);
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.priority-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.3);
+}
+
+.priority-options {
+  display: none;
+  position: absolute;
+  background: var(--dropdown-bg, #fff);
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  margin-top: 6px;
+  overflow: hidden;
+  z-index: 10;
+  min-width: 120px;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+.priority-dropdown:hover .priority-options {
+  display: block;
+}
+
+.priority-option {
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.25s ease-in-out;
+}
+
+.priority-option.low:hover {
+  background: rgba(0, 100, 255, 0.2);
+  color: #007bff;
+  text-shadow: 0 0 6px #007bff;
+}
+
+.priority-option.medium:hover {
+  background: rgba(255, 193, 7, 0.2);
+  color: #fbc02d;
+  text-shadow: 0 0 6px #fbc02d;
+}
+
+.priority-option.high:hover {
+  background: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+  text-shadow: 0 0 6px #f44336;
+}
+
+/* Adapt colors in dark mode */
+body.dark .priority-btn {
+  background: #333;
+  color: #eee;
+}
+
+body.dark .priority-options {
+  background: #222;
+}
+
+/* Light mode dropdown background */
+body.light .priority-options {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+}
+
+/* Dark mode dropdown background */
+body.dark .priority-options {
+  background: #222;
+  border: 1px solid #333;
+}
+
+/* Hover glow effects */
+.priority-option.low:hover {
+  background: rgba(0, 123, 255, 0.15);
+  color: #007bff;
+  text-shadow: 0 0 6px #007bff;
+}
+
+.priority-option.medium:hover {
+  background: rgba(255, 193, 7, 0.2);
+  color: #fbc02d;
+  text-shadow: 0 0 6px #fbc02d;
+}
+
+.priority-option.high:hover {
+  background: rgba(244, 67, 54, 0.2);
+  color: #f44336;
+  text-shadow: 0 0 6px #f44336;
+}
+
+.priority-option {
+  padding: 10px 14px;
+  cursor: pointer;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.25s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+

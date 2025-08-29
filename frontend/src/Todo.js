@@ -30,6 +30,15 @@ const Todo = ({ todo, toggleComplete, deleteTodo, editTodo }) => {
       className={`todo-item ${todo.completed ? 'completed' : ''} ${
         todo.priority ? todo.priority.toLowerCase() : ''
       }`}
+      onClick={() => {
+        if (!todo.completed) {
+          toggleComplete(todo._id, todo.completed);
+        }
+      }}
+      style={{
+        cursor: todo.completed ? "not-allowed" : "pointer",
+        opacity: todo.completed ? 0.6 : 1,
+      }}
     >
       {isEditing ? (
         <>
@@ -53,20 +62,28 @@ const Todo = ({ todo, toggleComplete, deleteTodo, editTodo }) => {
             onChange={(e) => setNewDueDate(e.target.value)}
           />
 
-          <button onClick={handleSave}>Save</button>
-          <button onClick={() => setIsEditing(false)}>Cancel</button>
+          <button onClick={(e) => { e.stopPropagation(); handleSave(); }}>
+            Save
+          </button>
+          <button onClick={(e) => { e.stopPropagation(); setIsEditing(false); }}>
+            Cancel
+          </button>
         </>
       ) : (
         <>
-          <span onClick={() => toggleComplete(todo._id, todo.completed)}>
+          <span>
             {todo.text} ({todo.priority}){" "}
             {todo.dueDate
               ? `- Due: ${new Date(todo.dueDate).toLocaleDateString()}`
               : ""}
           </span>
 
-          <button onClick={() => setIsEditing(true)}>Edit</button>
-          <button onClick={() => deleteTodo(todo._id)}>Delete</button>
+          <button onClick={(e) => { e.stopPropagation(); setIsEditing(true); }}>
+            Edit
+          </button>
+          <button onClick={(e) => { e.stopPropagation(); deleteTodo(todo._id); }}>
+            Delete
+          </button>
         </>
       )}
     </div>

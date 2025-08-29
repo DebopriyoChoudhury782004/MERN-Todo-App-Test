@@ -6,10 +6,10 @@ const authMiddleware = require('../middleware/authMiddleware');
 // Get all todos for the logged-in user
 router.get('/', authMiddleware, async (req, res) => {
   try {
-    const todos = await Todo.find({ user: req.user }); // ✅ use req.user directly
+    const todos = await Todo.find({ user: req.user.id }).sort({ order: 1 });
     res.json(todos);
-  } catch (error) {
-    res.status(500).json({ error: 'Failed to fetch todos' });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch todos" });
   }
 });
 
@@ -20,11 +20,13 @@ router.post('/', authMiddleware, async (req, res) => {
   console.log('📦 req.body:', req.body);
 
   try {
+    const count = await Todo.countDocuments({ user: req.user.id });
     const todo = new Todo({
-      user: req.user, // ✅ correct
+      user: req.user.id,
       text: req.body.text,
       priority: req.body.priority,
       dueDate: req.body.dueDate,
+      order: count
     });
 
     await todo.save();
@@ -39,20 +41,38 @@ router.post('/', authMiddleware, async (req, res) => {
 // Update a todo (only if it belongs to the logged-in user)
 router.put('/:id', authMiddleware, async (req, res) => {
   try {
-    const { text, priority, dueDate, completed } = req.body;
+    let { text, priority, dueDate, completed } = req.body;
 
-    const updateFields = { text, priority, dueDate };
-    if (typeof completed !== 'undefined') {
+    // normalize completed to strict boolean
+    if (typeof completed !== "undefined") {
+      completed = completed === true || completed === "true";
+    }
+
+    const existingTodo = await Todo.findOne({ _id: req.params.id, user: req.user.id });
+    if (!existingTodo) {
+      return res.status(404).json({ error: 'Todo not found or unauthorized' });
+    }
+
+    // 🚫 Prevent changing from true → false
+    if (existingTodo.completed && completed === false) {
+      return res.status(400).json({ error: 'Completed tasks cannot be marked as incomplete' });
+    }
+
+    const updateFields = {};
+    if (typeof text !== 'undefined') updateFields.text = text;
+    if (typeof priority !== 'undefined') updateFields.priority = priority;
+    if (typeof dueDate !== 'undefined') updateFields.dueDate = dueDate;
+    
+    // only allow completed to be set if it's not already true
+    if (!existingTodo.completed && typeof completed !== 'undefined') {
       updateFields.completed = completed;
     }
 
     const updatedTodo = await Todo.findOneAndUpdate(
-      { _id: req.params.id, user: req.user }, // ✅ fixed
-      updateFields,
+      { _id: req.params.id, user: req.user.id },
+      { $set: updateFields },
       { new: true }
     );
-
-    if (!updatedTodo) return res.status(404).json({ error: 'Todo not found or unauthorized' });
 
     res.json(updatedTodo);
   } catch (err) {
@@ -65,7 +85,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
   try {
     const deleted = await Todo.findOneAndDelete({
       _id: req.params.id,
-      user: req.user, // ✅ fixed
+      user: req.user.id,
     });
 
     if (!deleted) return res.status(404).json({ error: 'Todo not found or unauthorized' });

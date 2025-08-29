@@ -1,20 +1,23 @@
 // backend/middleware/authMiddleware.js
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 const authMiddleware = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
-  if (authHeader && authHeader.startsWith('Bearer')) {
-    const token = authHeader.split(' ')[1];
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    const token = authHeader.split(" ")[1];
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = decoded.id;  // Or decoded._id depending on what you stored
+
+      // ✅ Always keep it consistent
+      req.user = { id: decoded.id || decoded._id };
+
       next();
     } catch (err) {
-      return res.status(401).json({ message: 'Invalid token' });
+      return res.status(401).json({ message: "Invalid token" });
     }
   } else {
-    return res.status(401).json({ message: 'No token provided' });
+    return res.status(401).json({ message: "No token provided" });
   }
 };
 

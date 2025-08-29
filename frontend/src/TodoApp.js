@@ -10,39 +10,47 @@ const TodoApp = () => {
   const [priority, setPriority] = useState('Medium');
   const [dueDate, setDueDate] = useState('');
   const [filter, setFilter] = useState('all');
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(() => {
+    const savedTheme = localStorage.getItem('darkMode');
+    return savedTheme ? JSON.parse(savedTheme) : false;
+  });
+
   const [authError, setAuthError] = useState('');
   const [userInfo, setUserInfo] = useState(null);
   const [userHasChanged, setUserHasChanged] = useState(false);
 
+  // ✅ Persist dark mode
+  useEffect(() => {
+    document.body.className = darkMode ? 'dark' : '';
+    localStorage.setItem('darkMode', JSON.stringify(darkMode));
+  }, [darkMode]);
+
+  // ✅ Decode JWT token if exists
   const decodeToken = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
     if (token) {
       try {
-        const decoded = jwtDecode(token);
-        setUserInfo(decoded);
+        setUserInfo(jwtDecode(token));
       } catch (err) {
-        console.error("Invalid token", err);
+        console.error('Invalid token', err);
       }
     }
   };
 
+  // ✅ Initial load
   useEffect(() => {
     fetchTodos();
     decodeToken();
   }, []);
 
-  useEffect(() => {
-    document.body.className = darkMode ? 'dark' : '';
-  }, [darkMode]);
-
+  // ✅ Fetch todos
   const fetchTodos = async () => {
     try {
-      const token = localStorage.getItem("token");
-      console.log("🪪 Token sent:", token);
+      const token = localStorage.getItem('token');
+      console.log('🪪 Token sent:', token);
 
       const res = await API.get('/todos');
-      console.log("📥 Todos from backend:", res.data);
+      console.log('📥 Todos from backend:', res.data);
 
       setTodos(res.data);
       setAuthError('');
@@ -52,6 +60,7 @@ const TodoApp = () => {
     }
   };
 
+  // ✅ Add new todo
   const addTodo = async () => {
     if (!text.trim()) return;
     try {
@@ -59,9 +68,9 @@ const TodoApp = () => {
       console.log('Added Todo:', response.data);
 
       setText('');
-      setPriority('Medium');     
+      setPriority('Medium');
       setDueDate('');
-      setUserHasChanged(false);  
+      setUserHasChanged(false);
 
       fetchTodos();
     } catch (err) {
@@ -70,52 +79,64 @@ const TodoApp = () => {
     }
   };
 
+  // ✅ Toggle complete
   const toggleComplete = async (id, completed) => {
-    try {
-      await API.put(`/todos/${id}`, { completed: !completed });
+  try {
+    // Only allow marking as completed
+    if (!completed) {
+      await API.put(`/todos/${id}`, { completed: true });
       fetchTodos();
-    } catch (err) {
-      setAuthError('⚠️ Action failed. Please login.');
     }
-  };
+  } catch {
+    setAuthError('⚠️ Action failed. Please login.');
+  }
+};
 
+  // ✅ Delete todo
   const deleteTodo = async (id) => {
     try {
       await API.delete(`/todos/${id}`);
       fetchTodos();
-    } catch (err) {
+    } catch {
       setAuthError('⚠️ Delete failed. Please login.');
     }
   };
 
+  // ✅ Edit todo
   const editTodo = async (id, updatedFields) => {
     if (updatedFields.text && !updatedFields.text.trim()) return;
     try {
       await API.put(`/todos/${id}`, updatedFields);
       fetchTodos();
-    } catch (err) {
+    } catch {
       setAuthError('⚠️ Edit failed. Please login.');
     }
   };
 
-  const filteredTodos = todos.filter(todo => {
+  // ✅ Filter logic
+  const filteredTodos = todos.filter((todo) => {
     if (filter === 'completed') return todo.completed;
     if (filter === 'pending') return !todo.completed;
     return true;
   });
 
+  // ✅ Unified render list
+  const renderList = filter === 'all' ? todos : filteredTodos;
+
+  // ✅ Logout
   const handleLogout = () => {
     localStorage.removeItem('token');
     window.location.href = '/login';
   };
 
-  // ✅ Progress tracker logic
-  const completed = todos.filter(t => t.completed).length;
+  // ✅ Progress tracker
+  const completedCount = todos.filter((t) => t.completed).length;
   const total = todos.length;
-  const progress = total ? Math.round((completed / total) * 100) : 0;
+  const progress = total ? Math.round((completedCount / total) * 100) : 0;
 
   return (
     <div className="todo-app">
+      {/* ✅ User Info + Logout */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         {userInfo?.email && (
           <p style={{ marginLeft: '1rem', color: '#444', fontSize: '14px' }}>
@@ -127,20 +148,25 @@ const TodoApp = () => {
         </button>
       </div>
 
-      <h1>📝 Todo App</h1>
+      <h1>🎬 Action Planner</h1>
 
-      {/* ✅ Progress Tracker UI */}
+      
+      
       <div className="progress-container">
-        <div className="progress-bar" style={{ width: `${progress}%` }}></div>
-      </div>
-      <p>{progress}% tasks completed</p>
+  <div className="progress-label">{progress}% tasks completed</div>
+  <div className="progress-bar">
+    <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+  </div>
+</div>
 
+      {/* ✅ Theme Toggle */}
       <button className="btn btn-green" onClick={() => setDarkMode(!darkMode)}>
         {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
       </button>
 
       {authError && <p className="auth-error">{authError}</p>}
 
+      {/* ✅ Todo Input */}
       <div className="todo-input">
         <input
           value={text}
@@ -149,39 +175,45 @@ const TodoApp = () => {
           placeholder="Enter new todo"
         />
 
-        <select 
-          value={priority === "Medium" && !userHasChanged ? "" : priority}
-          onChange={(e) => {
-            setPriority(e.target.value);
-            setUserHasChanged(true);
-          }}
-        >
-          <option value="" disabled hidden>Set Priority</option>
-          <option value="Low">Low 🔵</option>
-          <option value="Medium">Medium 🟡</option>
-          <option value="High">High 🔴</option>
-        </select>
+        <div className="priority-dropdown">
+  <button className="priority-btn">
+    {priority === 'Low' ? '🔵 Low' :
+     priority === 'Medium' ? '🟡 Medium' :
+     priority === 'High' ? '🔴 High' : '⚪ Set Priority'}
+  </button>
+  <div className="priority-options">
+    <div onClick={() => setPriority('Low')} className="priority-option low">🔵 Low</div>
+    <div onClick={() => setPriority('Medium')} className="priority-option medium">🟡 Medium</div>
+    <div onClick={() => setPriority('High')} className="priority-option high">🔴 High</div>
+  </div>
+</div>
 
-        <input
-          type="date"
-          value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
-        />
+        <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
 
-        <button className="btn btn-green" onClick={addTodo}>Add</button>
+        <button className="btn btn-green" onClick={addTodo}>
+          Add
+        </button>
       </div>
 
+      {/* ✅ Filters */}
       <div className="filters">
-        <button className="btn btn-green" onClick={() => setFilter('all')}>All</button>
-        <button className="btn btn-green" onClick={() => setFilter('completed')}>Completed ✅</button>
-        <button className="btn btn-green" onClick={() => setFilter('pending')}>Pending ⏳</button>
+        <button className="btn btn-green" onClick={() => setFilter('all')}>
+          All
+        </button>
+        <button className="btn btn-green" onClick={() => setFilter('completed')}>
+          Completed ✅
+        </button>
+        <button className="btn btn-green" onClick={() => setFilter('pending')}>
+          Pending ⏳
+        </button>
       </div>
 
+      {/* ✅ Todo List Display */}
       <div className="todo-list">
-        {filteredTodos.length === 0 ? (
+        {renderList.length === 0 ? (
           <p className="empty-state">🎉 You're all caught up!</p>
         ) : (
-          filteredTodos.map(todo => (
+          renderList.map((todo) => (
             <Todo
               key={todo._id}
               todo={todo}
