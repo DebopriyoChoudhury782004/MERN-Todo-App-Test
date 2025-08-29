@@ -69,7 +69,7 @@ const TodoApp = () => {
       setText('');
       setPriority('Medium');
       setDueDate('');
-      setUserHasChanged(false);
+      
 
       fetchTodos();
     } catch (err) {
