@@ -17,8 +17,7 @@ const TodoApp = () => {
 
   const [authError, setAuthError] = useState('');
   const [userInfo, setUserInfo] = useState(null);
-  const [userHasChanged, setUserHasChanged] = useState(false);
-
+  
   // ✅ Persist dark mode
   useEffect(() => {
     document.body.className = darkMode ? 'dark' : '';
