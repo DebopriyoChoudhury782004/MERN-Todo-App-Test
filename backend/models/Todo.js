@@ -1,4 +1,3 @@
-// backend/models/Todo.js
 const mongoose = require("mongoose");
 
 const todoSchema = new mongoose.Schema(
@@ -10,7 +9,8 @@ const todoSchema = new mongoose.Schema(
       enum: ["Low", "Medium", "High"],
       default: "Medium",
     },
-    dueDate: { type: Date },
+    dueDate: { type: String }, // e.g. "2025-09-01"
+    dueTime: { type: String }, // ✅ Add this: e.g. "14:30"
     order: { type: Number, default: 0 },
     user: {
       type: mongoose.Schema.Types.ObjectId,

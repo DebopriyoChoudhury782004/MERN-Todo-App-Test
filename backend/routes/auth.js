@@ -15,7 +15,18 @@ router.post('/signup', async (req, res) => {
     user = new User({ email, password });
     await user.save();
 
-    res.status(201).json({ message: 'User registered successfully!' });
+    // 🔑 create token with id + email (same as login)
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    res.status(201).json({
+      message: 'User registered successfully!',
+      token,
+      user: { id: user._id, email: user.email },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
@@ -39,7 +50,10 @@ router.post('/login', async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    res.json({ token });
+    res.json({
+      token,
+      user: { id: user._id, email: user.email },
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

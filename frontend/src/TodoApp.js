@@ -9,6 +9,7 @@ const TodoApp = () => {
   const [text, setText] = useState('');
   const [priority, setPriority] = useState('Medium');
   const [dueDate, setDueDate] = useState('');
+  const [dueTime, setDueTime] = useState('');   
   const [filter, setFilter] = useState('all');
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem('darkMode');
@@ -63,14 +64,14 @@ const TodoApp = () => {
   const addTodo = async () => {
     if (!text.trim()) return;
     try {
-      const response = await API.post('/todos', { text, priority, dueDate });
+      const response = await API.post('/todos', { text, priority, dueDate, dueTime }); // ✅ include dueTime
       console.log('Added Todo:', response.data);
 
       setText('');
       setPriority('Medium');
       setDueDate('');
+      setDueTime(''); // ✅ reset after add
       
-
       fetchTodos();
     } catch (err) {
       console.error('Add Todo Error:', err.response?.data || err.message || err);
@@ -80,16 +81,15 @@ const TodoApp = () => {
 
   // ✅ Toggle complete
   const toggleComplete = async (id, completed) => {
-  try {
-    // Only allow marking as completed
-    if (!completed) {
-      await API.put(`/todos/${id}`, { completed: true });
-      fetchTodos();
+    try {
+      if (!completed) {
+        await API.put(`/todos/${id}`, { completed: true });
+        fetchTodos();
+      }
+    } catch {
+      setAuthError('⚠️ Action failed. Please login.');
     }
-  } catch {
-    setAuthError('⚠️ Action failed. Please login.');
-  }
-};
+  };
 
   // ✅ Delete todo
   const deleteTodo = async (id) => {
@@ -149,14 +149,12 @@ const TodoApp = () => {
 
       <h1>🎬 Action Planner</h1>
 
-      
-      
       <div className="progress-container">
-  <div className="progress-label">{progress}% tasks completed</div>
-  <div className="progress-bar">
-    <div className="progress-fill" style={{ width: `${progress}%` }}></div>
-  </div>
-</div>
+        <div className="progress-label">{progress}% tasks completed</div>
+        <div className="progress-bar">
+          <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+        </div>
+      </div>
 
       {/* ✅ Theme Toggle */}
       <button className="btn btn-green" onClick={() => setDarkMode(!darkMode)}>
@@ -175,19 +173,22 @@ const TodoApp = () => {
         />
 
         <div className="priority-dropdown">
-  <button className="priority-btn">
-    {priority === 'Low' ? '🔵 Low' :
-     priority === 'Medium' ? '🟡 Medium' :
-     priority === 'High' ? '🔴 High' : '⚪ Set Priority'}
-  </button>
-  <div className="priority-options">
-    <div onClick={() => setPriority('Low')} className="priority-option low">🔵 Low</div>
-    <div onClick={() => setPriority('Medium')} className="priority-option medium">🟡 Medium</div>
-    <div onClick={() => setPriority('High')} className="priority-option high">🔴 High</div>
-  </div>
-</div>
+          <button className="priority-btn">
+            {priority === 'Low' ? '🔵 Low' :
+             priority === 'Medium' ? '🟡 Medium' :
+             priority === 'High' ? '🔴 High' : '⚪ Set Priority'}
+          </button>
+          <div className="priority-options">
+            <div onClick={() => setPriority('Low')} className="priority-option low">🔵 Low</div>
+            <div onClick={() => setPriority('Medium')} className="priority-option medium">🟡 Medium</div>
+            <div onClick={() => setPriority('High')} className="priority-option high">🔴 High</div>
+          </div>
+        </div>
 
         <input type="date" value={dueDate} onChange={(e) => setDueDate(e.target.value)} />
+
+        {/* ✅ NEW Time Field */}
+        <input type="time" value={dueTime} onChange={(e) => setDueTime(e.target.value)} />
 
         <button className="btn btn-green" onClick={addTodo}>
           Add

@@ -75,6 +75,8 @@ mern-todo-app/
 │   ├── routes/
 │   │   ├── auth.js                  # Auth routes (login/signup)
 │   │   └── todos.js                 # Todo CRUD routes
+│   ├── util/
+│   │   └── email.js                #  Automated Email Services
 │   ├── node_modules/               # Backend dependencies
 │   ├── .env                        # Environment variables for backend
 │   ├── package.json                # Backend dependencies and scripts
