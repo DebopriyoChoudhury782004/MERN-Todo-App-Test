@@ -208,7 +208,7 @@ See `LICENSE` for more information.
 ## 📬 Contact
 
 Debopriyo Choudhury  
-📧 shridebopriyo@gmail.com  
+📧 sridebopriyo@gmail.com  
 🔗 GitHub: [DebopriyoChoudhury782004](https://github.com/DebopriyoChoudhury782004/MERN-Todo-App)
 
 ---
