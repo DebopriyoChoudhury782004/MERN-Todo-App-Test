@@ -26,7 +26,8 @@ A modern, animated, and responsive full-stack Todo List application built using 
 
 
 ## Login Page
-![Screenshot 2025-06-25 201434](https://github.com/user-attachments/assets/76fea55d-5473-4952-9795-ee9f34d2e74e)
+<img width="657" height="896" alt="image" src="https://github.com/user-attachments/assets/ac809f00-60d8-47c9-8194-1f5c2858b498" />
+
 
 
 ## SignUp Page
