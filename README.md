@@ -44,6 +44,7 @@ A modern, animated, and responsive full-stack Todo List application built using 
 - 👤 Personalized dashboard: Logged-in user's ID shown using JWT decode
 - 🎨 Smooth animations for task actions
 - ⌨️ Add todo using Enter key
+- 📧 Real time intimation upon creation and completion
 - ✅ Strike-through for completed tasks
 - 🌀 Responsive and minimalistic design
 - ♻️ Real-time updates using useEffect
