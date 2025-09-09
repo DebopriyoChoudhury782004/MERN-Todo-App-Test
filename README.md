@@ -18,20 +18,20 @@ A modern, animated, and responsive full-stack Todo List application built using 
 ## 📸 Preview
 
 ## Light Mode
-![Screenshot 2025-06-25 201544](https://github.com/user-attachments/assets/d4370d4d-2412-452a-8700-c98a289cd5c8)
+<img width="958" height="907" alt="image" src="https://github.com/user-attachments/assets/f0fe4075-f804-4e79-9d55-251090b2e89b" />
 
 
 ## Dark Mode
-![Screenshot 2025-06-25 201559](https://github.com/user-attachments/assets/95b8df03-fd03-496f-a065-770ff0529223)
+<img width="930" height="894" alt="image" src="https://github.com/user-attachments/assets/80813746-cd32-4545-9868-4fcd8144d333" />
 
 
 ## Login Page
 <img width="657" height="896" alt="image" src="https://github.com/user-attachments/assets/ac809f00-60d8-47c9-8194-1f5c2858b498" />
 
 
-
 ## SignUp Page
-![Screenshot 2025-06-25 201447](https://github.com/user-attachments/assets/e19f2328-cea6-48f3-ae12-8be037b5d3e9)
+<img width="611" height="880" alt="image" src="https://github.com/user-attachments/assets/278af5c1-849e-4391-845b-19b2f6c7f3b6" />
+
 
 
 
