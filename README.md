@@ -7,7 +7,7 @@
 
 
 
-# 📝 MERN Todo App
+# 📝 MERN Action Planner App
 
 A modern, animated, and responsive full-stack Todo List application built using the MERN stack (MongoDB, Express.js, React, Node.js). Manage your daily tasks effortlessly with a clean, minimalistic interface.
 
